@@ -2,6 +2,9 @@ package livraria.bean;
 
 import javax.faces.bean.ManagedBean;
 
+import livraria.dao.DAO;
+import livraria.modelo.Livro;
+
 @ManagedBean
 public class LivroBean {
 
@@ -12,6 +15,11 @@ public class LivroBean {
 	}
 
 	public void gravar() {
-		System.out.println("Gravando livro!" + this.livro.getTitulo());
+		System.out.println("Gravando livro! " + this.livro.getTitulo());
+		
+		if(livro.getAutores().isEmpty()) {
+			throw new RuntimeException("Livro deve ter pelo menos um autor");
+		}
+		new DAO<Livro>(Livro.class).adiciona(this.livro);
 	}
 }
