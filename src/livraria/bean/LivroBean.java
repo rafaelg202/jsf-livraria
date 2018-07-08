@@ -1,10 +1,10 @@
 package livraria.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -16,7 +16,9 @@ import livraria.modelo.Livro;
 
 @ManagedBean
 @ViewScoped
-public class LivroBean {
+public class LivroBean implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	private Livro livro = new Livro();
 	
