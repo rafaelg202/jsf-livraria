@@ -13,6 +13,8 @@ import javax.faces.validator.ValidatorException;
 import livraria.dao.DAO;
 import livraria.modelo.Autor;
 import livraria.modelo.Livro;
+import livraria.util.ForwardView;
+import livraria.util.RedirectView;
 
 @ManagedBean
 @ViewScoped
@@ -72,11 +74,21 @@ public class LivroBean implements Serializable {
 		this.livro = new Livro();
 	}
 	
+//	public String formAutor() {
+//		System.out.println("Chamando o form do Autor");
+//		return "autor?faces-redirect=true";
+//	}
+	
+	public ForwardView formAutor() {
+		System.out.println("Chamando o form do Autor");
+		return new ForwardView("autor");
+	}
+	
 	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
 		
 		String valor = value.toString();
 		if(!valor.startsWith("1")) {
 			throw new ValidatorException(new FacesMessage("Deveria comecar com 1"));
-		}
+		} 
 	}
 }
