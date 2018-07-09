@@ -22,17 +22,12 @@ public class LivroBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Livro livro = new Livro();
-	
+	private Livro livro = new Livro();	
 
 	private Integer autorId;
 	
 	public Livro getLivro() {
 		return livro;
-	}
-
-	public void setLivro(Livro livro) {
-		this.livro = livro;
 	}
 	
 	public Integer getAutorId() {
@@ -60,6 +55,10 @@ public class LivroBean implements Serializable {
 		Autor autor = new DAO<Autor>(Autor.class).buscaPorId(this.autorId);
 		this.livro.adicionaAutor(autor);
 	}
+	
+	public void removerAutorDoLivro(Autor autor) {
+		this.livro.removeAutor(autor);
+	}
 
 	public void gravar() {
 		System.out.println("Gravando livro! " + this.livro.getTitulo());
@@ -69,20 +68,37 @@ public class LivroBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage("autor", new FacesMessage("Livro deve ter pelo menos um Autor"));
 			return;
 		}
-		new DAO<Livro>(Livro.class).adiciona(this.livro);
+		
+		if(this.livro.getId() == null) {
+			new DAO<Livro>(Livro.class).adiciona(this.livro);			
+		}else {
+			new DAO<Livro>(Livro.class).atualiza(this.livro);			
+		}
+
 		
 		this.livro = new Livro();
 	}
 	
-//	public String formAutor() {
-//		System.out.println("Chamando o form do Autor");
-//		return "autor?faces-redirect=true";
-//	}
-	
-	public ForwardView formAutor() {
-		System.out.println("Chamando o form do Autor");
-		return new ForwardView("autor");
+	public void remover(Livro livro) {
+		System.out.println("Removendo livro");
+		new DAO<Livro>(Livro.class).remove(livro);
 	}
+	
+	public void carregar(Livro livro) {
+		System.out.println("Carregando livro");
+		this.livro = livro;
+		new DAO<Livro>(Livro.class).atualiza(livro);
+	}
+	
+	public String formAutor() {
+		System.out.println("Chamando o form do Autor");
+		return "autor?faces-redirect=true";
+	}
+	
+//	public ForwardView formAutor() {
+//		System.out.println("Chamando o form do Autor");
+//		return new ForwardView("autor");
+//	}
 	
 	public void comecaComDigitoUm(FacesContext fc, UIComponent component, Object value) throws ValidatorException {
 		
